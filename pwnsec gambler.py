@@ -3,10 +3,12 @@ from discord.ext import commands, tasks
 import time
 import os
 
-AUTHORIZED_USER_ID = [1200541411183956000,1270463743213441195]
+AUTHORIZED_USER_ID = [] #add the user ids you want the bot to listen to (this is very important)
 
 
 bot = commands.Bot(command_prefix="!", help_command=None, self_bot=True, chunk_guilds_at_startup=True)
+
+token = "" #input your token here
 
 @bot.event
 async def on_ready():
@@ -73,5 +75,5 @@ async def autoDep():
     await channel.send("-deposit all")
 
 
-bot.run("MTMyNjE2NDAzMzM1ODc5MDY2Ng.GLHbE5.qQDGer0Uptwl60Er4YM9UbpWBPzvL2dXishcMg")
+bot.run(token)
 

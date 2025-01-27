@@ -3,12 +3,12 @@ from discord.ext import commands, tasks
 import time
 import os
 
-AUTHORIZED_USER_ID = [] #add the user ids you want the bot to listen to (this is very important)
+AUTHORIZED_USER_ID = [] #input the user ids you want that listen to the bot (important)
 
 
 bot = commands.Bot(command_prefix="!", help_command=None, self_bot=True, chunk_guilds_at_startup=True)
 
-token = "" #input your token here
+token = "" #input token here
 
 @bot.event
 async def on_ready():

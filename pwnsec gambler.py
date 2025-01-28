@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 import time
 import os
 
-AUTHORIZED_USER_ID = [] #input the user ids you want that listen to the bot (important)
+AUTHORIZED_USER_ID = [] #input the user ids you want that the bot listens to (important)
 
 
 bot = commands.Bot(command_prefix="!", help_command=None, self_bot=True, chunk_guilds_at_startup=True)

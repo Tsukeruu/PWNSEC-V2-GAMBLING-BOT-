@@ -2,22 +2,22 @@ import discord
 from discord.ext import commands, tasks
 import time
 import os
+import random
 
-AUTHORIZED_USER_ID = [] #input the user ids you want that the bot listens to (important)
+AUTHORIZED_USER_ID = []
 
 
 bot = commands.Bot(command_prefix="!", help_command=None, self_bot=True, chunk_guilds_at_startup=True)
-
-token = "" #input token here
+token = ""
 
 @bot.event
 async def on_ready():
     os.system('cls')
     print(f"Logged in as {bot.user}")
     print('type !help to get started')
-    autoCollect.start()
-    time.sleep(3)
-    autoDep.start()
+    #autoCollect.start()
+    #time.sleep(3)
+    #autoDep.start()
 
 @bot.event
 async def on_message(message):
@@ -30,8 +30,8 @@ async def on_message(message):
                 await message.channel.send(f'-bal {message.author.mention}')
     elif (message.author.id in AUTHORIZED_USER_ID) and message.content == "!help":
            async with message.channel.typing():
-            time.sleep(0.4) 
-            await message.channel.send('''```ini
+                time.sleep(0.4) 
+           await message.channel.send('''```ini
 [COMMANDS:]
     ["yoru give me my balance":] returns the balance of the master's id!
     ["!help":] sends these messages
@@ -41,6 +41,7 @@ async def on_message(message):
 [BACKGROUND_TASKS:]
     [Auto_deposit] = True --Automatically deposits all cash every 1 hour
     [Auto_collect] = True --Automatically collects cash every 6 hours
+
     ``` 
 ''')  
     elif (message.author.id in AUTHORIZED_USER_ID) and message.content.startswith("!jump"):
@@ -56,7 +57,7 @@ async def on_message(message):
                     print('not a known datatype')
            except IndexError as i:
                 print('INDEX ERROR!!')
-    elif (message.author.id in AUTHORIZED_USER_ID) and message.content.startswith("!exit"):
+    elif (message.author.id in AUTHORIZED_USER_ID) and message.content == "!exit":
         async with message.channel.typing():
             time.sleep(0.4)
             await message.channel.send("Exiting!")

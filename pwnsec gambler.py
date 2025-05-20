@@ -6,7 +6,7 @@ import random
 import openai
 import requests
 
-AUTHORIZED_USER_ID = []
+AUTHORIZED_USER_ID = [] 
 
 bot = commands.Bot(command_prefix="!", help_command=None, self_bot=True, chunk_guilds_at_startup=True)
 token = ""
@@ -50,9 +50,10 @@ async def on_message(message):
     ["!help":] sends these messages
     ["!jump <userid>":] basically robs the userid, the userid will be prompted as the second arg
     ["!exit":] terminates the python program!
-    ["!gpt":] uses the ollama LLM
+    ["!gpt <prompt>":] uses the ollama LLM
     ["yoru give me a joke"]: self explanatory
-                                      
+    ["!whitelist <userid>"]: whitelists the user id to use yoru, however it will be temporary   
+                                   
 [BACKGROUND_TASKS:]
     [Auto_deposit] = True --Automatically deposits all cash every one hour
     [Auto_collect] = True --Automatically collects cash every six hours
@@ -81,8 +82,11 @@ async def on_message(message):
         prompt = message.content.split(' ', 1)[1]
         link = "http://localhost:11434/api/generate"
         async with message.channel.typing():
-            await message.channel.send(fetch_Response(prompt,link))
-
+            await message.channel.send(f'{message.author.mention} {fetch_Response(prompt,link)}')
+    elif (message.author.id in AUTHORIZED_USER_ID) and message.content.startswith('!whitelist'):
+        userid = message.content.split(' ',1)[1]
+        AUTHORIZED_USER_ID.append(int(userid))
+        await message.channel.send(f"SUCCESSFULLY ADDED USERID('s): {userid}")
     elif (message.author.id in AUTHORIZED_USER_ID) and message.content == "yoru give me a joke":
         try:      
             jokes = [
@@ -132,8 +136,6 @@ async def on_message(message):
         except UnboundLocalError as c:
             print()
     
-
-        
     await bot.process_commands(message)
 
 

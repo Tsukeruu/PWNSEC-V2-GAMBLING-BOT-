@@ -30,8 +30,7 @@ async def on_ready():
     print('type !help to get started')
     autoBeg.start()
     autoDep.start()
-    #autoCollect.start()
-    #time.sleep(3)
+    autoCollect.start()
 
 @bot.event
 async def on_message(message):
@@ -51,7 +50,7 @@ async def on_message(message):
     ["!help":] sends these messages
     ["!jump <userid>":] basically robs the userid, the userid will be prompted as the second arg
     ["!exit":] terminates the python program!
-    ["!gpt":] this simply allows you to use chatgpt via discord, however you may need to input your api-key
+    ["!gpt":] uses the ollama LLM
     ["yoru give me a joke"]: self explanatory
                                       
 [BACKGROUND_TASKS:]

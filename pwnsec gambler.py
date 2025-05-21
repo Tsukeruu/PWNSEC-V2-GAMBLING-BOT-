@@ -23,6 +23,11 @@ def fetch_Response(prompt,link):
     else:
         return 'AN ERROR HAS OCCURED WITHIN OLLAMA!'
 
+def fetch_Joke(url):
+    joke = (requests.get(url)).json()['joke']
+    return joke
+
+
 @bot.event
 async def on_ready():
     os.system('cls')
@@ -92,53 +97,17 @@ async def on_message(message):
         await message.channel.send(f"SUCCESSFULLY ADDED USERID('s): {userid}")
     elif (message.author.id in AUTHORIZED_USER_ID) and message.content == "yoru give me a joke":
         try:      
-            jokes = [
-                "Why don’t skeletons fight each other? They don’t have the guts!",
-                "Why did the scarecrow win an award? Because he was outstanding in his field!",
-                "Why did the bicycle fall over? Because it was two-tired!",
-                "What’s orange and sounds like a parrot? A carrot!",
-                "Why did the golfer bring two pairs of pants? In case he got a hole in one!",
-                "Why do programmers prefer dark mode? Because light attracts bugs!",
-                "Why was the JavaScript developer sad? Because he didn’t ‘null’ his feelings!",
-                "I told my WiFi it was bad. Now it won’t talk to me!",
-                "Why did the PowerPoint presentation cross the road? To get to the other slide!",
-                "How do you comfort a JavaScript bug? You console it!",
-                "Why don’t eggs tell jokes? They might crack up!",
-                "I told my suitcase there will be no vacations this year. Now I’m dealing with emotional baggage!",
-                "Why did the tomato blush? Because it saw the salad dressing!",
-                "What did the sushi say to the bee? Wasabi!",
-                "Why don’t bananas ever feel lonely? Because they hang out in bunches!",
-                "What do you call a factory that makes good products? A satis-factory!",
-                "Why did the duck get a promotion? Because he was a quack at his job!",
-                "What do you call a pile of kittens? A meow-tain!",
-                "Why do cows have hooves instead of feet? Because they lactose!",
-                "Why don’t some fish play piano? Because you can’t tuna fish!",
-                "Why did the chicken go to the seance? To talk to the other side!",
-                "What do you call fake spaghetti? An impasta!",
-                "How do you organize a space party? You planet!",
-                "Why don’t oysters donate to charity? Because they are shellfish!",
-                "What do you call a bear with no teeth? A gummy bear!",
-                "Why couldn’t the leopard hide? Because he was always spotted!",
-                "What happens when a frog’s car breaks down? It gets toad away!",
-                "Why don’t secrets last in a bank? Because they always get leaked!",
-                "Why did the music teacher go to jail? Because she got caught with a high note!",
-                "Why do seagulls fly over the sea? Because if they flew over the bay, they’d be bagels!",
-                "Why do vampires always seem sick? Because they’re always coffin!",
-                "Why did the math book look sad? Because it had too many problems!",
-                "What did one wall say to the other wall? 'I’ll meet you at the corner!'",
-                "Why do elephants never use computers? They’re afraid of the mouse!",
-                "Why did the belt get arrested? It was holding up a pair of pants!"
-            ]
-            #i sincerely apologize for these significantly unfunny jokes that chat-gpt have generated for me
-            random_joke = random.choice(jokes)
-
+            joke = fetch_Joke("https://v2.jokeapi.dev/joke/Any?type=single")
             async with message.channel.typing():
-                time.sleep(2)
-                await message.channel.send(f'{message.author.mention} {random_joke}')
-
-        except UnboundLocalError as c:
-            print()
-    
+                time.sleep(0.4)
+                await message.channel.send(f'{message.author.mention} {joke}')
+        except Exception as e:
+            if isinstance(e,requests.ConnectionError):
+                await message.channel.send(f'A CONNECTION ERROR HAS OCCURED')
+                print(e)
+            else:
+                await message.channel.send(f'AN UNKOWN ERROR HAS OCCURED')
+                print(e)
     await bot.process_commands(message)
 
 

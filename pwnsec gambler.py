@@ -82,7 +82,10 @@ async def on_message(message):
         prompt = message.content.split(' ', 1)[1]
         link = "http://localhost:11434/api/generate"
         async with message.channel.typing():
-            await message.channel.send(f'{message.author.mention} {fetch_Response(prompt,link)}')
+            try:
+                await message.channel.send(f'{message.author.mention} {fetch_Response(prompt,link)}')
+            except requests.exceptions.ConnectionError as e:
+                await message.channel.send(f'yo gng you gotta power up ollama to make ts shit work')
     elif (message.author.id in AUTHORIZED_USER_ID) and message.content.startswith('!whitelist'):
         userid = message.content.split(' ',1)[1]
         AUTHORIZED_USER_ID.append(int(userid))
